@@ -1,0 +1,54 @@
+html {
+    background-color: black;
+    overflow-y: hidden;
+}
+
+canvas {
+    background-color: black;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 87.5vw;
+    max-height: 100vh;
+    width: 100vh;
+    max-width: 100vw;
+    -ms-interpolation-mode: nearest-neighbor;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: pixelated;
+    overflow-y: hidden;
+}
+
+.mobilectrl-wrapper {
+    position: absolute;
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    width: 100vw;
+    height: 35vh;
+    max-height: 35vw;
+    top: calc(100vh - min(35vh, 35vw));
+    left: 0px;
+    z-index: 20;
+}
+
+.mobilectrl-wrapper div {
+    width: 100%;
+    height: calc(min(35vh, 35vw) / 3);
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.mobilectrl-wrapper div div {
+    color: white;
+    height: calc(min(35vh, 35vw) / 3);
+    width: calc(min(35vh, 35vw) / 3);
+    border: 1px solid white;
+}
+
+.mobilectrl-wrapper div div svg {
+    width: 100%;
+    height: 100%;
+}
