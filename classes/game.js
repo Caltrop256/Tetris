@@ -83,29 +83,7 @@ class Game {
         };
 
         (this.setHighscoreData = () => {
-            const getCookie = (cname) => {
-                const name = cname + "=",
-                    ca = decodeURIComponent(document.cookie).split(';');
-                for (let i = 0; i < ca.length; i++) {
-                    var c = ca[i];
-                    while (c.charAt(0) == ' ') {
-                        c = c.substring(1);
-                    }
-                    if (c.indexOf(name) == 0) {
-                        return c.substring(name.length, c.length);
-                    }
-                }
-                return void 0;
-            }
-
-            for (let i = 0; i < 3; ++i) {
-                this.highscores.A.name[i] = getCookie('tan' + i);
-                this.highscores.A.level[i] = getCookie('tal' + i);
-                this.highscores.A.score[i] = getCookie('tas' + i);
-                this.highscores.B.name[i] = getCookie('tbn' + i);
-                this.highscores.B.level[i] = getCookie('tbl' + i);
-                this.highscores.B.score[i] = getCookie('tbs' + i);
-            }
+            this.highscores = JSON.parse(localStorage.getItem('tetris_highscoreData')) || { A: { name: [], level: [], score: [] }, B: { name: [], level: [], score: [] } };
         })();
 
         this.gameOverAnimationTimer = -1337;
@@ -119,6 +97,9 @@ class Game {
         this.preferedMusic = 0;
         this.canPlayMusic = false;
 
+        this.paused = true;
+        this.togglePause();
+
         this.frameDelay = 1000 / 60.0988;
         this.__loop(0);
         window.addEventListener('keyup', e => this.__handleKeyboardInput(e, false));
@@ -131,22 +112,17 @@ class Game {
         // window.addEventListener('touchend', e => this.__handleSwipeInput({ x: e.changedTouches[e.changedTouches.length - 1].clientX, y: e.changedTouches[e.changedTouches.length - 1].clientY, pressing: 0, mobile: true }));
         // window.addEventListener('touchmove', e => this.__handleSwipeInput({ x: e.touches[e.touches.length - 1].clientX, y: e.touches[e.touches.length - 1].clientY, pressing: 0, mobile: true }))
     }
+
+    togglePause = () => {
+        this.interupt.all = (this.paused = !this.paused);
+        document.getElementById('pauseButton').innerHTML = this.paused
+            ? `<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 494.148 494.148" style="enable-background:new 0 0 494.148 494.148;" xml:space="preserve"><g><g><path style="fill: white" d="M405.284,201.188L130.804,13.28C118.128,4.596,105.356,0,94.74,0C74.216,0,61.52,16.472,61.52,44.044v406.124 c0,27.54,12.68,43.98,33.156,43.98c10.632,0,23.2-4.6,35.904-13.308l274.608-187.904c17.66-12.104,27.44-28.392,27.44-45.884 C432.632,229.572,422.964,213.288,405.284,201.188z"/></g></g></svg>`
+            : `<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve"><g><g><path style="fill: white" d="M181.333,0H74.667c-17.643,0-32,14.357-32,32v448c0,17.643,14.357,32,32,32h106.667c17.643,0,32-14.357,32-32V32 C213.333,14.357,198.976,0,181.333,0z"/></g></g><g><g><path style="fill: white" d="M437.333,0H330.667c-17.643,0-32,14.357-32,32v448c0,17.643,14.357,32,32,32h106.667c17.643,0,32-14.357,32-32V32 C469.333,14.357,454.976,0,437.333,0z"/></g></g></svg>`;
+        canvas.canvas.style.filter = `blur(${this.paused * 7}px)`;
+    }
+
     updateHighscoreData = () => {
-        const setCookie = (name, val, days) => {
-            if (typeof val == "undefined") return;
-            const d = new Date();
-            d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
-            const expires = "expires=" + d.toUTCString();
-            document.cookie = name + "=" + val + ";" + expires + ";path=/";
-        }, expiry = 365;
-        for (let i = 0; i < 3; ++i) {
-            setCookie('tan' + i, this.highscores.A.name[i], expiry);
-            setCookie('tal' + i, this.highscores.A.level[i], expiry);
-            setCookie('tas' + i, this.highscores.A.score[i], expiry);
-            setCookie('tbn' + i, this.highscores.B.name[i], expiry);
-            setCookie('tbl' + i, this.highscores.B.level[i], expiry);
-            setCookie('tbs' + i, this.highscores.B.score[i], expiry);
-        }
+        localStorage.setItem('tetris_highscoreData', JSON.stringify(this.highscores));
     }
     startGame = (level, type, height) => {
         this.score = 0;

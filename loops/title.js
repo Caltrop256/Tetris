@@ -18,6 +18,10 @@ __loop.title = function title(t, game) {
     if (game.pInputs.rot && (game.inputTimer.rot && game.inputTimer.rot < 2)) {
         game.setState('menu');
     }
+
+    if (typeof sfx != 'undefined' && !sfx.getCurrentBgMusic()) {
+        sfx.loop('mus_title');
+    }
 }
 __loop.title_prep = function title_prep(game) {
     mobileCTRL.setMenu(true);

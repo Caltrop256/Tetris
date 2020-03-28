@@ -76,7 +76,7 @@ __loop.highscore = function highscore(t, game) {
     game.highscores[game.type].name[game.highscoreManagement.position] = game.highscoreManagement.letterIndex.map(n => String.fromCharCode(n + 64)).join('');
 
     for (let i = 0; i < game.highscores[game.type].name.length; ++i) {
-        if (typeof game.highscores[game.type].name[i] != "undefined")
+        if (typeof game.highscores[game.type].name[i] != "undefined" && game.highscores[game.type].name[i])
             canvas.write(game.highscores[game.type].name[i].padEnd(6, ' ') + ' ' + game.highscores[game.type].score[i].padStart(6, '0') + ' ' + game.highscores[game.type].level[i].padStart(2, '0'), 68, 156 + (i * 16));
     }
 

@@ -30,6 +30,11 @@
     <script src="./loops/highscore.js"></script>
     <script src="./main.js"></script>
     <h1 style="font-family: monospace">Loading</h1>
+
+    <div class="options">
+        <div class="small-button" id="muteButton" onclick="if(typeof sfx != 'undefined') sfx.toggleMute()"></div>
+        <div class="small-button" id="pauseButton" onclick="if(typeof game != 'undefined') game.togglePause()"></div>
+    </div>
 </body>
 
 </html>

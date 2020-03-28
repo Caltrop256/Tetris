@@ -27,7 +27,7 @@ canvas {
     width: 100vw;
     height: 35vh;
     max-height: 35vw;
-    top: calc(100vh - min(35vh, 35vw));
+    top: calc(98vh - min(35vh, 35vw));
     left: 0px;
     z-index: 20;
 }
@@ -51,4 +51,19 @@ canvas {
 .mobilectrl-wrapper div div svg {
     width: 100%;
     height: 100%;
+}
+
+.options {
+    width: 48px;
+    height: 16px;
+    position: absolute;
+    z-index: 100;
+    display: flex;
+    flex-direction: row;
+}
+
+.options .small-button {
+    width: 16px;
+    height: 16px;
+    margin-left: 8px;
 }

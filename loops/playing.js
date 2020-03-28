@@ -66,7 +66,7 @@ __loop.playing = function playing(t, game) {
                             }
                             if (isLine) {
                                 game.linesToClear.push(game.currentPos.y + py);
-                                game.lineClearAnimationtimer = 90;
+                                game.lineClearAnimationtimer = 45;
                             }
                         }
                     }
@@ -74,24 +74,26 @@ __loop.playing = function playing(t, game) {
                     let currentBgMusic = sfx.getCurrentBgMusic(),
                         isAlmostGameOver = false,
                         i = (5 - game.linesToClear.length) * game.width + game.width;
-                    while (i-- > 0 && !isAlmostGameOver) {
-                        if (game.field[i]) {
-                            isAlmostGameOver = true;
+                    if (currentBgMusic) {
+                        while (i-- > 0 && !isAlmostGameOver) {
+                            if (game.field[i]) {
+                                isAlmostGameOver = true;
+                            }
+                        };
+                        if (isAlmostGameOver && !currentBgMusic.endsWith('_fast')) {
+                            sfx.stopAllMusic();
+                            sfx.loop('mus_main' + game.preferedMusic + '_fast');
+                        } else if (!isAlmostGameOver && currentBgMusic.endsWith('_fast')) {
+                            sfx.stopAllMusic();
+                            sfx.loop('mus_main' + game.preferedMusic);
                         }
-                    };
-                    if (isAlmostGameOver && !currentBgMusic.endsWith('_fast')) {
-                        sfx.stopAllMusic();
-                        sfx.loop('mus_main' + game.preferedMusic + '_fast');
-                    } else if (!isAlmostGameOver && currentBgMusic.endsWith('_fast')) {
-                        sfx.stopAllMusic();
-                        sfx.loop('mus_main' + game.preferedMusic);
                     }
 
                     if (!game.linesToClear.length) game.newPiece();
                 }
             }
         } else {
-            if (game.lineClearAnimationtimer == 90) {
+            if (game.lineClearAnimationtimer == 45) {
 
                 if (game.type == 'A') {
                     game.linesCleared += game.linesToClear.length;
@@ -216,7 +218,7 @@ __loop.playing = function playing(t, game) {
                 }
                 if (!(game.lineClearAnimationtimer % 9)) {
                     for (let i = 0; i < game.lineClearAnimationData.length; ++i) {
-                        game.lineClearAnimationData[i] -= 0.02;
+                        game.lineClearAnimationData[i] -= 0.04;
                     }
                 }
                 canvas.drawTileOpague(((game.field[i] - 1) * game.tileSize) % (3 * game.tileSize), (game.level % 9) * game.tileSize + (game.level % 9) * game.tileOffsetSize, game.tileSize, game.tileSize, p.x * game.tileSize + game.offset.x, p.y * game.tileSize + game.offset.y, opacity)

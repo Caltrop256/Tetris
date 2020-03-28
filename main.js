@@ -68,6 +68,4 @@ const mobileCTRL = new MobileControls(),
             icon.href = (favicon.canvas.toDataURL('image/png'))
         };
     }), true);
-window.addEventListener('unhandledrejection', e => e.preventDefault());
 window.addEventListener('contextmenu', e => e.preventDefault());
-//shoutouts to /r/tetris
